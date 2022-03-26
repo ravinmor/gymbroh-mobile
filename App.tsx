@@ -1,20 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useFonts } from 'expo-font';
+import { Nunito_600SemiBold, Nunito_700Bold, Nunito_800ExtraBold } from '@expo-google-fonts/nunito'
+
+import { AuthProvider } from './src/Context/Auth';
+import { Router } from './src/Routes/Router';
+
+import { StatusBar } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+	const [fontsLoaded] = useFonts({
+		Nunito_600SemiBold,
+		Nunito_700Bold,
+		Nunito_800ExtraBold
+	})
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+	if(!fontsLoaded) {
+		return null;
+	}
+	
+	return (
+		<AuthProvider>
+			<StatusBar barStyle="light-content" />
+			<Router />
+		</AuthProvider>
+	);
+}
