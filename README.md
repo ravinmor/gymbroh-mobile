@@ -1,4 +1,6 @@
 # gymbroh-mobile
+![Design sem nome (2)](https://user-images.githubusercontent.com/50897495/164308685-d8a164b0-5ecb-4bfe-adee-8aef63579a5c.png)
+
 
 ## Table of contents
 
