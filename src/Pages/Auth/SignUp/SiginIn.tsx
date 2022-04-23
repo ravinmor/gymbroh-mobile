@@ -6,9 +6,12 @@ import { useNavigation, useRoute } from "@react-navigation/native"
 import * as ImagePicker from 'expo-image-picker'
 import { Picker } from '@react-native-picker/picker'
 import DateTimePicker  from '@react-native-community/datetimepicker'
+import moment from 'moment'
 
 import api from '../../../Services/api'
-import styles from "./styles.tsx"
+import styles from "./styles"
+import SexButton from "../../../Components/SexButton/SexButton"
+import DatePickerComponent from "../../../Components/DatePickerComponent/DatePickerComponent"
 
 interface UserDataRouteParams {
     username: string,
@@ -36,7 +39,7 @@ export default function SiginIn() {
     const [ user_lastname, setUser_lastname ] = useState('')
     const [ email, setEmail ] = useState('')
     const [ birthdate, setBirthdate ] = useState('')
-    const [ gender, setGender ] = useState('')
+    const [ gender, setGender ] = useState('1')
     const [ cpf, setCPF ] = useState('')
     const [ postal_code, setPostal_code ] = useState('')
     const [ street, setStreet ] = useState('')
@@ -52,9 +55,6 @@ export default function SiginIn() {
     const [ visibleConfirmPassword, setVisibleConfirmPassword ] = useState<boolean>(true)
     const [ visiblePassEye, setVisiblePassEye ] = useState<string>('eye')
     const [ visibleConfirmPassEye, setVisibleConfirmPassEye ] = useState<string>('eye')
-    const [ show, setShow ] = useState(false);
-    const [ styleDate, setStyleDate ] = useState(styles.inputPlaceHolder);
-    const [ textBirthdate, setTextBirthdate ] = useState('Digite a data do seu nascimento');
 
     const navigation = useNavigation()
     const route = useRoute()
@@ -62,7 +62,6 @@ export default function SiginIn() {
     const routeParams = route.params as EntitySonRouteParams
 
     function consistData() {
-
         if(username == '') {
             alert('Por favor preencha o campo "Nome"')
             return false
@@ -256,19 +255,6 @@ export default function SiginIn() {
         }
     }
 
-    const timeToString = (time) => {
-        const date = new Date(time);
-        return date.toISOString().split('T')[0];
-    };
-
-    const onChangeDate = (event, selectedDate) => {
-        const currentDate = timeToString(selectedDate);
-        setShow(Platform.OS === 'ios');
-        setBirthdate(currentDate);
-        setTextBirthdate(new Date().toLocaleDateString(currentDate));
-        setStyleDate(styles.inputDate)
-    };
-
     return(
         <ScrollView
             keyboardDismissMode="on-drag"
@@ -313,24 +299,7 @@ export default function SiginIn() {
                     </TextInput>
                 </View>
                 <View style={styles.viewInput}>
-                    {show && <DateTimePicker
-                        mode="date"
-                        display="calendar"
-                        value={new Date()}
-                        onChange={onChangeDate}
-                    />}
-                    <Text style={styles.inputText}>Data de nascimento</Text>
-                    <Pressable
-                        style={[styles.inputLogin, {                    
-                            paddingVertical: 0,
-                            paddingHorizontal: 0,
-                            justifyContent: "center",
-                            alignItems: 'center'
-                        }]}
-                        onPress={() => {setShow(true)}}
-                    >
-                        <Text style={styleDate}>{ textBirthdate }</Text>
-                    </Pressable>
+                    <DatePickerComponent funcSetBirthDate={setBirthdate} />
                 </View>
                 <View style={styles.viewInput}>
                     <Text style={styles.inputText}>Sexo</Text>
@@ -343,19 +312,7 @@ export default function SiginIn() {
                             paddingLeft: 15
                         }]}
                     >
-                        <Picker
-                            style={[styles.inputLogin, {
-                                backgroundColor: '#00000000',
-                                width: 340
-                            }]}
-                            selectedValue={gender}
-                            onValueChange={(itemValue) => {
-                                setGender(itemValue)
-                            }}
-                        >
-                            <Picker.Item  label="Masculino" value='1'/>
-                            <Picker.Item  label="Feminino" value='0'/>
-                        </Picker>
+                        <SexButton value={gender} func={setGender} />
                     </View>
                 </View>
                 <View style={styles.viewInput}>

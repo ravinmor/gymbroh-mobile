@@ -1,14 +1,14 @@
-import { Feather } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { useEffect, useState } from "react";
-import { Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
-import { BorderlessButton, RectButton } from "react-native-gesture-handler";
-import { Picker } from '@react-native-picker/picker'
-import DateTimePicker  from '@react-native-community/datetimepicker'
+import { Feather } from "@expo/vector-icons"
+import { useNavigation } from "@react-navigation/native"
+import { useEffect, useState } from "react"
+import { Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native"
+import { BorderlessButton, RectButton } from "react-native-gesture-handler"
 
-import { useAuth } from "../../../Context/Auth";
-import api from "../../../Services/api";
-import styles from "./styles.tsx"
+import { useAuth } from "../../../Context/Auth"
+import api from "../../../Services/api"
+import styles from "./styles"
+import SexButton from "../../../Components/SexButton/SexButton"
+import DatePickerComponent from "../../../Components/DatePickerComponent/DatePickerComponent"
 
 export default function EditProfile() {
     const navigation = useNavigation()
@@ -16,7 +16,7 @@ export default function EditProfile() {
     const [ username, setUsername ] = useState('')
     const [ user_lastname, setUser_lastname ] = useState('')
     const [ email, setEmail ] = useState('')
-    const [ birthdate, setBirthdate ] = useState('')
+    const [ birthdate, setBirthdate ] = useState<Date>(new Date())
     const [ gender, setGender ] = useState('')
     const [ cpf, setCPF ] = useState('')
     const [ postal_code, setPostal_code ] = useState('')
@@ -33,9 +33,9 @@ export default function EditProfile() {
     const [ visibleConfirmPassword, setVisibleConfirmPassword ] = useState<boolean>(true)
     const [ visiblePassEye, setVisiblePassEye ] = useState<string>('eye')
     const [ visibleConfirmPassEye, setVisibleConfirmPassEye ] = useState<string>('eye')
-    const [ show, setShow ] = useState(false);
-    const [ styleDate, setStyleDate ] = useState(styles.inputDate);
-    const [ textBirthdate, setTextBirthdate ] = useState('Digite a data do seu nascimento');
+    const [ show, setShow ] = useState(false)
+    const [ styleDate, setStyleDate ] = useState(styles.inputDate)
+    const [ loaded, setLoaded ] = useState(false)
 
     const _auth = useAuth();
 
@@ -45,8 +45,7 @@ export default function EditProfile() {
             setUser_lastname(response.data.user_lastname)
             setEmail(response.data.email)
             setBirthdate(response.data.birthdate)
-            setTextBirthdate(new Date().toLocaleDateString(birthdate));
-            setGender(response.data.gender)
+            setGender(response.data.gender ? '1': '0')
             setCPF(response.data.cpf)
             setPostal_code(response.data.postal_code)
             setStreet(response.data.street)
@@ -56,7 +55,7 @@ export default function EditProfile() {
             setState_initials(response.data.state_initials)
             setImages(response.data.images)
             setRoles(response.data.roles)
-        })
+        }).then(() => { setLoaded(true) })
     }, [_auth.authData.id])
     
     function consistData() {
@@ -220,23 +219,12 @@ export default function EditProfile() {
         }
     }
 
-    const timeToString = (time) => {
-        const date = new Date(time);
-        return date.toISOString().split('T')[0];
-    };
-
-    const onChangeDate = (event, selectedDate) => {
-        const currentDate = timeToString(selectedDate);
-        setShow(Platform.OS === 'ios');
-        setBirthdate(currentDate);
-        setTextBirthdate(new Date().toLocaleDateString(currentDate));
-        if(birthdate !== '') {
-            setStyleDate(styles.inputPlaceHolder)
-
-        } else {
-            setStyleDate(styles.inputDate)
-        }
-    };
+    if (!loaded) {
+        return (
+            <View style={styles.containerLogin}>
+            </View>
+        )
+    }
 
     return(
         <ScrollView
@@ -282,24 +270,7 @@ export default function EditProfile() {
                     </TextInput>
                 </View>
                 <View style={styles.viewInput}>
-                    {show && <DateTimePicker
-                        mode="date"
-                        display="calendar"
-                        value={new Date()}
-                        onChange={onChangeDate}
-                    />}
-                    <Text style={styles.inputText}>Data de nascimento</Text>
-                    <Pressable
-                        style={[styles.inputLogin, {                    
-                            paddingVertical: 0,
-                            paddingHorizontal: 0,
-                            justifyContent: "center",
-                            alignItems: 'center'
-                        }]}
-                        onPress={() => {setShow(true)}}
-                    >
-                        <Text style={styleDate}>{ textBirthdate }</Text>
-                    </Pressable>
+                    {birthdate && <DatePickerComponent value={new Date(birthdate)} funcSetBirthDate={setBirthdate} />}
                 </View>
                 <View style={styles.viewInput}>
                     <Text style={styles.inputText}>Sexo</Text>
@@ -312,19 +283,7 @@ export default function EditProfile() {
                             paddingLeft: 15
                         }]}
                     >
-                        <Picker
-                            style={[styles.inputLogin, {
-                                backgroundColor: '#00000000',
-                                width: 340
-                            }]}
-                            selectedValue={gender}
-                            onValueChange={(itemValue) => {
-                                setGender(itemValue)
-                            }}
-                        >
-                            <Picker.Item  label="Masculino" value='1'/>
-                            <Picker.Item  label="Feminino" value='0'/>
-                        </Picker>
+                        <SexButton value={gender} func={setGender} />
                     </View>
                 </View>
                 <View style={styles.viewInput}>
