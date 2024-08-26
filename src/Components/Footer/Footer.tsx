@@ -101,7 +101,7 @@ export default function Footer({ settings }: FooterProps) {
 
     function handleNavigateToScanner() {
         navigation.navigate('LinkUserScanner', {
-            title: 'Vincule-se a uma academia!',
+            title: 'Vincule-se à um Aluno!',
             subtitle: 'Basta apontar a camera do seu celular para o QR Code, ou digitar o código que te enviarem',
             link: id
         })
@@ -119,11 +119,11 @@ export default function Footer({ settings }: FooterProps) {
                     <Feather style={styles.footerIcon} name="user-plus" size={24} color="#95419c" />
                 </BorderlessButton>
             }
-            {isPersonal && !isLinked &&
+            {/* {isPersonal && !isLinked &&
                 <BorderlessButton style={styles.footerField} onPress={handleNavigateToScanner}>
                     <Feather style={styles.footerIcon} name="users" size={24} color="#95419c" />
                 </BorderlessButton>
-            }
+            } */}
         </View>
     )
 }

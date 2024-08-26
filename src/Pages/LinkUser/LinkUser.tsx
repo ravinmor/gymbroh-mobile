@@ -1,7 +1,7 @@
 import { Feather } from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/native";
 import { Pressable, Text, View , Share } from "react-native";
-import QRCode from "react-native-qrcode-generator";
+import QRCode from 'react-native-qrcode-svg';
 
 import styles from "./styles"
 
@@ -21,6 +21,8 @@ export default function LinkUser() {
         message:  params.link
     };
 
+    console.log(params.link)
+
     const onSharePress = () => Share.share(shareOptions);
 
     return(
@@ -32,10 +34,8 @@ export default function LinkUser() {
             <View style={styles.qrCodeView}>
                 <View style={styles.qrCodeViewWhiteUsefulArea}>
                     <QRCode
-                        value={params.link}
+                        value="http://awesome.link.qr"
                         size={300}
-                        bgColor='black'
-                        fgColor='white'
                     />
                     <View style={styles.qrCodeLinkArea}>
                         <Pressable style={styles.buttonLink}  onPress={onSharePress}>

@@ -19,7 +19,7 @@ export default function ListPersonal() {
 
     return(
         <View style={styles.containerPersonal}>
-            <EntityList module="ListStudents" path={`/list/${id}`} />
+            <EntityList module="ListStudents" path={`/users/getPersonals`} />
             <Footer settings={true} />
         </View>
     )

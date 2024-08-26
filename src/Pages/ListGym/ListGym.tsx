@@ -7,7 +7,7 @@ import styles from "./styles.tsx"
 export default function ListGym() {
     return(
         <View style={styles.container}>
-            <EntityList module="ListPersonals" path="/admin/listGym" />
+            <EntityList module="ListPersonals" path="/users/getByRole/personal" />
             <Footer settings={true} />
         </View>
     )

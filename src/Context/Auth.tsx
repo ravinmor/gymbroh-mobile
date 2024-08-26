@@ -44,12 +44,14 @@ const AuthProvider: React.FC = ({children}) => {
 		}
 	}
 
-	const signIn = async (email, password) => {
+	const signIn = async (email: string, password: string) => {
 		const _authData = await authService.signIn(
 			email,
 			password,
 		);
 
+		console.log('>')
+		console.log(_authData);
 		if(_authData.status == 400) {
 			alert(_authData.message)
 			return

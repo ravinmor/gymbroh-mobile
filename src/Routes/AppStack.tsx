@@ -32,7 +32,7 @@ export const AppStack = () => {
 		if(userRole == 'admin') {
 			return (
 				<Group>
-					<Screen
+					{/* <Screen
 						name="ListGym"
 						component={ListGym}
 						options={{
@@ -43,14 +43,14 @@ export const AppStack = () => {
 								title="Listagem de acadêmias" 
 							/>
 						}}
-					/>
+					/> */}
 					<Screen
 						name="ListPersonals"
 						component={ListPersonal}
 						options={{
 							headerShown: true,
 							header: () => <Header
-								title="Listagem"
+								title="Listagem de personais"
 							/>
 						}} 
 					/>
@@ -60,7 +60,7 @@ export const AppStack = () => {
 						options={{
 							headerShown: true,
 							header: () => <Header
-								title="Listagem"
+								title="Listagem de alunos"
 							/>
 						}} 
 					/>
@@ -88,53 +88,53 @@ export const AppStack = () => {
 					/>
 				</Group>
 			)
-		} else if (userRole == 'gym') {
-			return (
-				<Group>
-					<Screen
-						name="ListPersonals"
-						component={ListPersonal}
-						options={{
-							headerShown: true,
-							header: () => <Header
-								title="Listagem"
-							/>
-						}} 
-					/>
-					<Screen
-						name="ListStudents"
-						component={ListStudents}
-						options={{
-							headerShown: true,
-							header: () => <Header
-								title="Listagem"
-							/>
-						}} 
-					/>
-					<Screen
-						name="ListEntitySon"
-						component={ListEntitySon}
-						options={{
-							headerShown: true,
-							header: () => <Header
-								title="Listagem"
-							/>
-						}} 
-					/>
-					<Screen
-						name="CreateExercise"
-						component={CreateExercise}
-						options={{
-							headerShown: true,
-							header: () => <Header
-								goBackButton={true}
-								cancelButton={false}
-								title="Criar exercício"
-							/>
-						}} 
-					/>
-				</Group>
-			)
+			// } else if (userRole == 'gym') {
+			// 	return (
+			// 		<Group>
+			// 			<Screen
+			// 				name="ListPersonals"
+			// 				component={ListPersonal}
+			// 				options={{
+			// 					headerShown: true,
+			// 					header: () => <Header
+			// 						title="Listagem"
+			// 					/>
+			// 				}} 
+			// 			/>
+			// 			<Screen
+			// 				name="ListStudents"
+			// 				component={ListStudents}
+			// 				options={{
+			// 					headerShown: true,
+			// 					header: () => <Header
+			// 						title="Listagem"
+			// 					/>
+			// 				}} 
+			// 			/>
+			// 			<Screen
+			// 				name="ListEntitySon"
+			// 				component={ListEntitySon}
+			// 				options={{
+			// 					headerShown: true,
+			// 					header: () => <Header
+			// 						title="Listagem"
+			// 					/>
+			// 				}} 
+			// 			/>
+			// 			<Screen
+			// 				name="CreateExercise"
+			// 				component={CreateExercise}
+			// 				options={{
+			// 					headerShown: true,
+			// 					header: () => <Header
+			// 						goBackButton={true}
+			// 						cancelButton={false}
+			// 						title="Criar exercício"
+			// 					/>
+			// 				}} 
+			// 			/>
+			// 		</Group>
+			// 	)
 		} else if (userRole == 'personal') {
 			return (
 				<Group>

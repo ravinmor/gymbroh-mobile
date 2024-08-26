@@ -24,9 +24,11 @@ interface EntityData {
 
 export default function EntityList({ path, module }: EntityData) {
     const [ entities, setEntities ] = useState<EntityProps[]>([])
-    
+    console.log(path);
     useEffect(() => {
         api.get(path).then(response => {
+            console.log('>');
+            console.log(response.data);
             setEntities(response.data)
         })
     }, [path])

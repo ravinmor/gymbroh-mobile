@@ -12,6 +12,7 @@ export type AuthData = {
 
 
 const signIn = (email: string, _password: string): Promise<AuthData> => {
+	console.log('> Logando')
 	return new Promise((resolve, reject) => {
 		api.post('/login', { email: email, password: _password }).then(response => {
 			resolve({

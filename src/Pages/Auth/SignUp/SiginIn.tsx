@@ -8,7 +8,7 @@ import { Picker } from '@react-native-picker/picker'
 import DateTimePicker  from '@react-native-community/datetimepicker'
 import moment from 'moment'
 
-import api from '../../../Services/api'
+import api from '../../../Services/api';
 import styles from "./styles"
 import SexButton from "../../../Components/SexButton/SexButton"
 import DatePickerComponent from "../../../Components/DatePickerComponent/DatePickerComponent"
@@ -170,33 +170,34 @@ export default function SiginIn() {
     }
 
     const apiPost = async (inputParam, apiName) => {
-        let URL = `http://192.168.0.66:3333/${apiName}`;
-        let param = inputParam;
+        // let URL = `http://192.168.0.66:3333/${apiName}`;
+        const body = inputParam;
 
-        let headers = {
-            'Content-Type': 'multipart/form-data',
-            Accept: 'application/json',
-        };
-
-        let obj = {
-            method: 'POST',
-            headers: headers,
-            body: param,
-        };
-
-        return fetch(URL, obj)
-        .then(async resp => {
-            let json = null;
-            json = await resp.json();
-            if (resp.ok) {
-                return json;
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
             }
-            return json.then(err => {
+        };
+
+        // let obj = {
+        //     method: 'POST',
+        //     headers: headers,
+        //     body: param,
+        // };
+
+        return api.post(`${apiName}`, body, config)
+            .then(async resp => {
+                let json = null;
+                json = await resp.data;
+                if (resp.status) {
+                    return json;
+                }
+            })
+            .catch(err => {
                 console.log('error :', err);
                 throw err;
             });
-        })
-        .then(json => json);
     }
 
     async function handleSelectImages() {
